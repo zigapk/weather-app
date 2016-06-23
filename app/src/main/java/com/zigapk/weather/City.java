@@ -42,7 +42,9 @@ public class City implements Serializable{
             result.user_input_name = user_input_name;
             result.get_performed = true;
             return result;
-        }catch (Exception e){
+        } catch (CityNotFoundException e){
+            throw e;
+        } catch (Exception e){
             throw new CouldNotReachServerException();
         }
     }
