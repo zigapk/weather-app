@@ -47,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
                         CITY_REQUEST_CODE);
             }
         });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.cities_list);
         mLayoutManager = new LinearLayoutManager(this);
@@ -98,5 +104,11 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.cities_list).setVisibility(View.VISIBLE);
             findViewById(R.id.swipeRefreshLayout).setVisibility(View.VISIBLE);
         }
+    }
+
+    private void refresh() {
+        mAdapter = new CitiesListAdapter(mAdapter.getCities());
+        mRecyclerView.setAdapter(mAdapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
