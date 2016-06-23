@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -31,12 +32,16 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
+        public ProgressBar progressBar;
         public TextView cityName;
+        public TextView temperatureInfoTv;
 
         public ViewHolder(View v) {
             super(v);
             view = v;
+            progressBar = (ProgressBar) v.findViewById(R.id.temperatureProgressBar);
             cityName = (TextView) v.findViewById(R.id.cityNameTv);
+            temperatureInfoTv = (TextView) v.findViewById(R.id.mainTemperatureInfoTv);
         }
 
     }
@@ -121,6 +126,10 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Vi
                             cities.set(position, tempCity.name);
 
                             holder.cityName.setText(tempCity.name);
+                            holder.cityName.setText(tempCity.name);
+                            holder.temperatureInfoTv.setText(tempCity.main.formatedTemp());
+                            holder.temperatureInfoTv.setVisibility(View.VISIBLE);
+                            holder.progressBar.setVisibility(View.GONE);
                             holder.view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -141,6 +150,9 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Vi
                                     R.string.no_data_for, city.user_input_name));
                             holder.cityName.setTextColor(MainActivity.context.getResources().
                                     getColor(R.color.red));
+                            holder.temperatureInfoTv.setText("/");
+                            holder.temperatureInfoTv.setVisibility(View.VISIBLE);
+                            holder.progressBar.setVisibility(View.GONE);
                             holder.view.setOnClickListener(null);
                         }
                     });
@@ -149,6 +161,9 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Vi
                         @Override
                         public void run() {
                             MainActivity.showNoConnectionSnackbar();
+                            holder.temperatureInfoTv.setText("/");
+                            holder.temperatureInfoTv.setVisibility(View.VISIBLE);
+                            holder.progressBar.setVisibility(View.GONE);
                             holder.view.setOnClickListener(null);
                         }
                     });
