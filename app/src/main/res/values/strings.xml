@@ -6,4 +6,7 @@
     <string name="cancel">cancel</string>
     <string name="no_data_for">Could not find \'%1$s\'</string>
     <string name="no_connection">No connection.</string>
+    <string name="temperature">Temperature:</string>
+    <string name="humidity">Humidity:</string>
+    <string name="description">Description:</string>
 </resources>
