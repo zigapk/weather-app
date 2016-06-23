@@ -4,4 +4,6 @@
     <string name="city_name">City name</string>
     <string name="add">add</string>
     <string name="cancel">cancel</string>
+    <string name="no_data_for">Could not find \'%1$s\'</string>
+    <string name="no_connection">No connection.</string>
 </resources>

@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 /**
  * Created by zigapk on 22.6.2016.
  */
-public class City {
+public class City implements Serializable{
     Weather[] weather = new Weather[0];
     MainWeatherData main = new MainWeatherData();
     int cod = 0;
