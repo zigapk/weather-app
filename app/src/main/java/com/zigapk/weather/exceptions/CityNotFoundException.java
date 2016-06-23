@@ -1,4 +1,4 @@
-package com.zigapk.weather;
+package com.zigapk.weather.exceptions;
 
 /**
  * Created by zigapk on 22.6.2016.

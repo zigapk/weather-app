@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.zigapk.weather.exceptions.CityNotFoundException;
 import com.zigapk.weather.exceptions.CouldNotReachServerException;
 import com.zigapk.weather.utils.FileUtils;
 
