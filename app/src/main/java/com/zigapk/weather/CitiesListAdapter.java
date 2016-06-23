@@ -1,5 +1,6 @@
 package com.zigapk.weather;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.zigapk.weather.exceptions.CouldNotReachServerException;
+import com.zigapk.weather.utils.FileUtils;
 
 import java.util.ArrayList;
 
@@ -58,6 +61,24 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Vi
 
     public String getCityAtPosition(int position) {
         return cities.get(position);
+    }
+
+    public void load(Context context){
+        try {
+            String json = FileUtils.readFile("cities.json", context);
+            cities = new Gson().fromJson(json, CitiesHolder.class).cities;
+        }catch (Exception e){
+            System.out.println();
+        }
+    }
+
+    public void save(Context context){
+        try {
+            String json = new Gson().toJson(new CitiesHolder(cities));
+            FileUtils.writeToFile("cities.json", json, context);
+        }catch (Exception e){
+            System.out.println();
+        }
     }
 
     @Override
@@ -136,5 +157,14 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Vi
             }
         }).start();
     }
+}
 
+// temporary space to save cities to json
+class CitiesHolder {
+    public ArrayList<String> cities = new ArrayList<>();
+
+    public CitiesHolder(){}
+    public CitiesHolder(ArrayList<String> cities){
+        this.cities = cities;
+    }
 }

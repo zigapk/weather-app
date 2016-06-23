@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static SwipeRefreshLayout swipeRefreshLayout;
     private static FloatingActionButton fab;
-    public static Context context;
+    public static Context context; // used to start intents from recycler view adapter
     private static CoordinatorLayout coordinatorLayout;
 
     private static RecyclerView mRecyclerView;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CitiesListAdapter();
+        mAdapter.load(getApplicationContext());
         mRecyclerView.setAdapter(mAdapter);
         showAndHideElements();
 
@@ -83,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mAdapter.save(context);
     }
 
     @Override
