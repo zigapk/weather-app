@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     final public static int CITY_REQUEST_CODE = 0;
     private static boolean noConnectionSnackbarOpen = false;
+    private static String removedCity = "";
+    private static int removedPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,25 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         showAndHideElements();
 
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                removedPosition = viewHolder.getLayoutPosition();
+                removedCity = mAdapter.getCityAtPosition(removedPosition);
+                mAdapter.removeItem(removedPosition);
+                showUndoSnackbar();
+                showAndHideElements();
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
     }
 
     @Override
@@ -73,6 +95,19 @@ public class MainActivity extends AppCompatActivity {
                 showAndHideElements();
             }
         }
+    }
+
+    private void showUndoSnackbar(){
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, getString(R.string.deleted_snackbar, removedCity), Snackbar.LENGTH_LONG)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mAdapter.addItem(removedPosition, removedCity);
+                        showAndHideElements();
+                    }
+                });
+        snackbar.show();
     }
 
     public static void showNoConnectionSnackbar(){

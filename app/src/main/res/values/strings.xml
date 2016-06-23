@@ -9,4 +9,5 @@
     <string name="temperature">Temperature:</string>
     <string name="humidity">Humidity:</string>
     <string name="description">Description:</string>
+    <string name="deleted_snackbar">%1$s removed.</string>
 </resources>
